@@ -1,0 +1,41 @@
+---
+title: Automatic Evaluation
+---
+
+Automatic evaluations in Murnitur AI are initiated directly from the user interface, providing a streamlined process for assessing LLM performance.
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/evals.png" />
+
+## Initial Setup
+
+- **Upload a Test Dataset**: Begin by uploading an evaluation dataset. This dataset should be in CSV format and can contain any headers. However, it must include the following columns:
+
+  - `context`
+  - `ground_truth`
+  - `retrieval_context` (optional)
+
+- **Download the Template**: To ensure your dataset is correctly formatted, you can download the template [here](#).
+
+## Evaluation Run
+
+Go to **AI Evaluations** in the sidebar and click on the **New Evaluation Run** button.
+
+1. **Choose Preset**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/select-preset.png" />
+
+2. **Configure LLM Model**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/choose-model.png" />
+
+3. **Select Evaluation Dataset**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/choose-dataset.png" />
+
+4. **Choose Evaluation Metrics**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/choose-metrics.png" />
+
+5. **Result**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/result.png" />
