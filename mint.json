@@ -59,6 +59,15 @@
     {
       "group": "Presets",
       "pages": ["presets/overview", "presets/prompt-sdk"]
+    },
+    {
+      "group": "Evals",
+      "pages": [
+        "evaluations/overview",
+        "evaluations/human-evaluation",
+        "evaluations/automatic-evaluation",
+        "evaluations/programmatic-evaluation"
+      ]
     }
   ],
   "footerSocials": {
