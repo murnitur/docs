@@ -1,0 +1,44 @@
+---
+title: Loading Presets
+---
+
+In the Murnitur SDK, you can easily use presets configured in the Murnitur AI platform. These presets contain predefined settings like prompts and input variables, tailored for specific tasks. By using these presets in the SDK, you avoid the need to store configuration details in your code or repeat setup steps.
+
+This simplifies integrating LLM functionality into applications, providing a straightforward way to access optimized configurations. It boosts productivity, ensures consistency, and speeds up development cycles. Whether adjusting prompts, selecting model versions, or specifying inputs, using presets in the SDK lets you focus on your application logic and innovation while benefiting from optimized configurations from the Murnitur AI platform.
+
+## Example
+
+<CodeGroup>
+
+```python python
+
+import murnitur
+from openai import OpenAI
+
+client = OpenAI()
+
+def customer_support(question: str):
+    preset = murnitur.load_preset("customer_support")
+    prompt = murnitur.format_prompt(
+        messages=preset.active_version.messages,
+        params={"question": question},
+    )
+    result = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        temperature=1,
+        messages=prompt,
+        max_tokens=300,
+    )
+    return result.choices[0].message.content
+
+
+if __name__ == "__main__":
+    murnitur.api_key = "mt-ey..."
+
+    murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT)
+    print(customer_support("Do you offer discount on Hardware items?"))
+
+
+```
+
+</CodeGroup>

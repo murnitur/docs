@@ -1,0 +1,60 @@
+---
+title: Tracing
+---
+
+Murnitur enables comprehensive tracing of Large Language Models (LLMs), capturing inputs, outputs, intermediate steps, and model interactions during inference. This includes tracking the model's decision-making process, attention mechanisms, and token-level operations.
+
+### Tracing with Murnitur
+
+**How We Trace**: Tracing with Murnitur involves instrumenting the LLM application to log relevant information at various stages of inference. This instrumentation allows developers to gain insights into model's outputs, token usages and costs.
+
+**Key Indications**: Tracing provides key indications such as model behavior, errors, performance metrics, and resource usage.
+
+**Costs and Tokens**: Tracing provides insights into the cost, both in dollars and tokens, associated with each request.
+
+**Latency**: Murnitur detects the duration between the prompt and the output from the LLM, ensuring accurate measurement of performance without significantly impacting application operation.
+
+**Outputs**: Tracing outputs include detailed logs, metrics, and visualizations that offer insights into the inner workings of the LLM, facilitating debugging, optimization, and analysis.
+
+**Prompts**: Tracing also captures prompts and their corresponding model responses, providing context for understanding the model's behavior in different scenarios.
+
+**Annotation and Dataset Generation**: Murnitur supports annotation of trace data by domain experts, enabling the identification of errors, anomalies, or areas for improvement. Additionally, developers can generate fine-tune datasets from trace data to further enhance the LLM's performance through iterative training.
+
+**Alerts and Notifications**: Murnitur empowers users to configure custom alerts, enabling them to define specific thresholds or conditions for triggering notifications. When these conditions are met, Murnitur promptly notifies users, ensuring timely awareness of critical events or deviations. This proactive approach enhances monitoring capabilities, allowing users to respond promptly to emerging issues and maintain the desired performance and reliability of their LLM applications.
+
+## Tracing
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/llm-request.png" />
+
+<CodeGroup>
+
+```python python
+
+import murnitur
+import anthropic
+
+def generate_response():
+    client = anthropic.Anthropic()
+
+    message = client.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=1000,
+      temperature=0.0,
+      system="Respond only in Yoda-speak.",
+      messages=[
+          {"role": "user", "content": "How are you today?"}
+      ]
+    )
+
+    return message.content
+
+
+if __name__ == "__main__":
+    murnitur.api_key = "mt-ey..."
+
+    murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT)
+    print(generate_response())
+
+```
+
+</CodeGroup>

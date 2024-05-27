@@ -1,0 +1,45 @@
+---
+title: Installation
+---
+
+## SDK Setup Requirements
+
+Setting up the SDK is required only if you wish to trace your LLM application. Currently, Python is the only supported language, but we are diligently working to release support for TypeScript in the coming months.
+
+<CodeGroup>
+```bash python 
+pip install murnitur 
+```
+
+</CodeGroup>
+
+## Get API Key
+
+<img
+  className="block dark:block"
+  src="/images/api-setup.png"
+  alt="Generate API Key"
+/>
+
+To generate an API key for the SDK, follow these steps:
+
+1. Log in to your account on [murnitur.ai](https://murnitur.ai).
+2. Navigate to the **Settings** page.
+3. Locate the API key section and generate a new key.
+4. Copy the generated API key.
+5. Add the copied API key to your SDK configuration.
+
+This key will enable the SDK to authenticate subsequent request to murnitur.ai.
+
+<CodeGroup>
+
+```python python
+import murnitur
+
+murnitur.api_key = "mt-ey..."
+
+murnitur.init()
+
+```
+
+</CodeGroup>
