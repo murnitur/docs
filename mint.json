@@ -68,6 +68,14 @@
         "evaluations/automatic-evaluation",
         "evaluations/programmatic-evaluation"
       ]
+    },
+    {
+      "group": "Alerts",
+      "pages": ["alerts/setup"]
+    },
+    {
+      "group": "Datasets",
+      "pages": ["datasets/completions"]
     }
   ],
   "footerSocials": {

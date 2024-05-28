@@ -1,0 +1,95 @@
+---
+title: Alert Setup
+---
+
+Murnitur AI enables you to receive alerts whenever unexpected events occur, such as costs exceeding your expectations. Here's how to set up and manage alerts to stay informed when things go wrong.
+
+## Pre-requisites
+
+Before setting up alerts, ensure you have:
+
+- [Setup the SDK](/installation)
+
+## Set-Up
+
+To set up your alerts, follow these steps:
+
+- **Define Who Should Be Alerted and How**:
+
+  - Specify the recipients of the alerts.
+  - Configure your Slack notifications.
+
+- **Define What They Should Be Alerted On**:
+  - Identify the specific conditions or thresholds that will trigger an alert (e.g., cost exceeding a certain amount, unusual model behavior).
+
+Your alerting settings can be found and configured under your Project Settings page. This centralized location allows you to manage and adjust your alerts as needed, ensuring you stay informed about the performance and costs of your LLM applications.
+
+## Email Alerts
+
+If you want to receive alerts via email, go to the **Email Recipients** page in the settings page. Add the email addresses of the recipients in the provided textbox to ensure they receive the necessary notifications.
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/email.png" />
+
+**Note**: If no recipients are specified, alerts will be sent to the project owner's email address by default.
+
+## Slack Alerts
+
+To receive alerts via Slack, configure your Slack settings under the **Slack** section in the settings.
+Follow the following instructions to setup:
+
+- **Initialization**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/slack-init.png" />
+
+- **Allow Connection**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/slack-connect.png" />
+
+- **Join Channel**
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/slack-connected.png" />
+
+## Configure Alerts
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/alert.png" />
+
+1. **Navigate to Configure Alerts**
+
+   - In the Settings page, click on **Configure Alerts** in the sidebar under the Notifications section.
+
+2. **Create a New Alert Configuration**
+
+   - Click on the **Add new configuration** button to start setting up a new alert.
+
+3. **Define Alert Parameters**
+
+   - **Metric and Threshold**:
+     - Select the metric you want to monitor from the dropdown (e.g., `Costs ($)`).
+     - Define the threshold value that will trigger the alert.
+     - Choose the comparison operation (e.g., `Greater than or Equal to`).
+   - **Aggregation and Time Frame**:
+     - Choose how to aggregate the metric data (e.g., `Total value`).
+     - Define the time frame for evaluation (e.g., `10` in the last `30 minutes`).
+
+4. **Save the Configuration**
+
+   - After defining the parameters, click the **Save** button to create the alert.
+
+5. **Edit or Delete Configurations**
+   - You can edit or delete existing alert configurations by clicking the corresponding buttons next to each configuration.
+
+### Example Configuration
+
+Here's an example of setting up an alert configuration to notify you if the total cost exceeds $10 in the last 30 minutes:
+
+- **Metric**: Costs ($)
+- **Threshold**: 10
+- **Comparison**: Greater than or Equal to
+- **Aggregation**: Total value
+- **Time Frame**: 10 in the last 30 minutes
+
+## Triggering Alerts
+
+Once your Alerts are configured, we will periodically check the specified metrics against the defined criteria at the specified time frame. When the criteria are met, we will send notifications to the configured channels to alert you of the detected issues or anomalies.
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/email-alert.png" />
