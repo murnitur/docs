@@ -25,12 +25,13 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "http://docs.murnitur.ai/introduction"
     },
     {
       "name": "Community",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "url": "https://mintlify.com/community",
+      "isDefaultHidden": true
     },
     {
       "name": "Contact us",
@@ -79,8 +80,6 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
     "linkedin": "https://www.linkedin.com/company/murnitur"
   }
 }
