@@ -54,7 +54,7 @@ def detect_yoda_response():
 
 
 if __name__ == "__main__":
-    murnitur.api_key = "mt-ey..."
+    murnitur.set_api_key("mt-ey...")
 
     murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT)
     print(detect_yoda_response())

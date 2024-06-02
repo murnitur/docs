@@ -16,10 +16,10 @@ import murnitur
 from murnitur.annotation.eval import Evaluation
 
 # initialize evaluation
-murnitur.api_key = "mt-ey..."
+murnitur.set_api_key("mt-ey...")
 key = "sk-..."
 
-eval = Evaluation(openai_api_key=key, murnix_api_key=murnitur.api_key)
+eval = Evaluation(openai_api_key=key, murnix_api_key=murnitur.get_api_key())
 
 # Load datasets
 dataset = [
