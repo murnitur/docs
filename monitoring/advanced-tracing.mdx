@@ -62,3 +62,136 @@ if __name__ == "__main__":
 ```
 
 </CodeGroup>
+
+## Trace Generator
+
+The `tracer` context manager in the Murnitur library is designed to facilitate tracing operations within your LLM application. This is particularly useful for monitoring, logging, and diagnosing issues in your system.
+
+### Usage
+
+To use the `tracer` context manager, wrap the code block you want to trace within a with statement. You can set a custom name for each trace to identify different operations.
+
+<CodeGroup>
+
+```python python
+
+import murnitur
+
+def customer_support(question: str):
+    with murnitur.tracer(name="Customer support") as trace:
+        # application logic
+
+```
+
+</CodeGroup>
+
+### Setting the output
+
+Using the `tracer` context, you have the ability to set the final result of the trace.
+
+<CodeGroup>
+
+```python python
+import murnitur
+
+def customer_support(question: str):
+    with murnitur.tracer(name="Customer support") as trace:
+        preset = murnitur.load_preset("customer_support")
+        prompt = murnitur.format_prompt(
+            messages=preset.active_version.messages,
+            params={"question": question},
+        )
+        result = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=prompt,
+        )
+        output = result.choices[0].message.content
+        trace.set_result(output)
+
+```
+
+</CodeGroup>
+
+### Custom metadata
+
+<CodeGroup>
+
+```python python
+import murnitur
+
+def ask_question(question="What is the answer to life?") -> str:
+    with murnitur.tracer(name="Philosophical question") as trace:
+        content = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            temperature=1,
+            max_tokens=200,
+            messages=[{"role": "user", "content": question}],
+        )
+        result = content.choices[0].message.content
+        trace.set_result(result)
+        trace.set_metadata({"question": question})
+    return result
+
+
+
+```
+
+</CodeGroup>
+
+## Full Example
+
+Consider a scenario where you have a basic chatbot that interacts with users and you want to trace this operation to monitor its performance and log the result.
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/tracer.png" />
+
+<CodeGroup>
+
+```python python
+import murnitur
+from openai import OpenAI
+
+client = OpenAI()
+
+PROMPT = """You are a movie genius who can guess the title of a
+            movie from a one liner."""
+
+def run_chatbot():
+    """A simple chatbot"""
+    conversation = [{"role": "system", "content": PROMPT}]
+
+    print(f"What's the one-liner?. Type `exit` to end the conversation.")
+
+    user_input = input("::")
+
+    conversation.append({"role": "user", "content": user_input})
+
+    with murnitur.tracer(name="Simple Trivia Chatbot") as trace:
+        while user_input != "exit":
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=conversation,
+            )
+            content = completion.choices[0].message.content
+            conversation.append({"role": "assistant", "content": content})
+
+            print(content)
+            user_input = input("::")
+
+            if user_input != "exit":
+                conversation.append({"role": "user", "content": user_input})
+
+        trace.set_result(conversation[-1]["content"])
+
+if __name__ == "__main__":
+    murnitur.set_api_key("mt-ey...")
+
+    murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT)
+
+    print(run_chatbot())
+
+
+```
+
+</CodeGroup>
+
+By integrating the `tracer` context manager into your application, you can enhance your monitoring and debugging capabilities, leading to more reliable LLM application.
