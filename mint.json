@@ -77,6 +77,10 @@
     {
       "group": "Datasets",
       "pages": ["datasets/completions"]
+    },
+    {
+      "group": "Integrations",
+      "pages": ["integrations/openlit"]
     }
   ],
   "footerSocials": {
