@@ -55,7 +55,11 @@
     },
     {
       "group": "Playground",
-      "pages": ["playground/overview", "playground/comparison-hub"]
+      "pages": [
+        "playground/overview",
+        "playground/comparison-hub",
+        "playground/custom-models"
+      ]
     },
     {
       "group": "Presets",
