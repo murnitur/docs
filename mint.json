@@ -2,10 +2,10 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Murnitur",
   "logo": {
-    "dark": "/logo/logo.png",
-    "light": "/logo/logo.png"
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
   },
-  "favicon": "/logo/logo.png",
+  "favicon": "/logo/light.svg",
   "colors": {
     "primary": "#2e5ac0",
     "light": "#4377f3",
