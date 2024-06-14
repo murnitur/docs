@@ -1,0 +1,44 @@
+---
+title: Custom Logs
+---
+
+`murnitur.log()` is a function provided by Murnitur that allows you to log custom data to provide more context for instrumented traces. It enriches your trace data with additional information, helping you better understand and analyze your application's behavior.
+
+```python python
+
+import murnitur
+
+# log additional data to existing trace
+murnitur.log("Metadata", { "model": "claude-3-opus-20240229" })
+
+```
+
+## Use cases
+
+- **Improved Understanding**: Gain deeper insights into your application's behavior by logging relevant context alongside traces.
+- **Easier Debugging**: Debug issues more effectively with detailed trace data that includes additional contextual information.
+- **Customizable**: Tailor logging to your specific requirements, ensuring you capture the most relevant data for analysis.
+
+## Logging in Trace Generator
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/log.png" />
+
+```python python
+
+import murnitur
+
+with murnitur.tracer("Confirm One Liner") as trace:
+    one_liner = generate_one_liner()
+    guess = guess_one_liner(one_liner)
+    trace.log("Additional Data", shield_data)
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": f"Was the guess correct? One-liner: {one_liner}, Guess: {guess}",
+            }
+        ],
+    )
+    trace.set_result(completion.choices[0].message.content)
+```

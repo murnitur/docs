@@ -1,0 +1,182 @@
+---
+title: Overview
+---
+
+Murnitur Shield is designed to protect your system from bad inputs and safeguard your users from harmful outputs. Think of it as a firewall for your data, ensuring that only appropriate content gets through.
+
+## Generate API Key
+
+- Visit [murnitur.ai](https://murnitur.ai) and sign in to your account.
+- Navigate to the API key section and generate a new API key.
+
+## Install Murnitur
+
+Install the Murnitur package using pip:
+
+```bash bash
+pip install murnitur
+```
+
+## Define Rulesets
+
+Rulesets are the core of Murnitur Shield, containing specific rules your application must comply with. They help determine what gets flagged or filtered based on predefined criteria.
+
+Example ruleset:
+
+```python python
+from murnitur.guard import RuleSet
+
+rulesets: list[RuleSet] = [
+    {
+        "rules": [
+            {
+                "metric": "pii",
+                "operator": "contains",
+                "value": ["email", "ssn", "address", "phone_number"],
+            },
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "Sorry, I can't provide personal identifiable information.",
+        },
+    },
+]
+```
+
+Each ruleset includes:
+
+- **Metric**: The type of content to check (e.g., PII).
+- **Operator**: The condition to evaluate (e.g., "contains").
+- **Value**: Specific values to look for (e.g., "email", "ssn").
+- **Action**: What to do if a rule is triggered, such as overriding the response with a fallback message.
+
+## Start the Firewall
+
+Initialize Murnitur Shield to start filtering content:
+
+```python python
+payload = {
+    "output": "James lives at 567 X. Elm St., Chicago, IL 60614.",
+    "input": "Give me James' home address",
+}
+
+response = Guard.shield(
+    payload=payload,
+    rulesets=rulesets,
+    group="development",
+    murnitur_key="<YOUR_API_KEY>"
+)
+```
+
+## Quick Wiki
+
+### `payload`
+
+The `payload` parameter is a dictionary containing the data you want to inspect and filter. It typically includes:
+
+- `input`: The original input data from the user.
+- `output`: The generated output data from your system.
+
+Example:
+
+```python python
+payload = {
+    "input": "User input data here",
+    "output": "Generated output data here"
+}
+```
+
+### `rulesets`
+
+The `rulesets` parameter is a list of `RuleSet` objects defining the rules your application must comply with. Each `RuleSet` contains:
+
+- `rules`: A list of individual rules to check against the `payload`.
+  - `metric`: The type of content to evaluate (e.g., "pii" for Personally Identifiable Information).
+  - `operator`: The condition to apply (e.g., "contains").
+  - `value`: Specific values to look for (e.g., ["email", "ssn"]).
+- `action`: The action to take if a rule is triggered.
+  - `type`: The type of action (e.g., "OVERRIDE").
+  - `fallback`: The fallback response if the action type is "OVERRIDE".
+
+Example:
+
+```python python
+rulesets = [
+    {
+        "rules": [
+            {
+                "metric": "pii",
+                "operator": "contains",
+                "value": ["email", "ssn", "address", "phone_number"]
+            }
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "Sorry, I can't provide personal identifiable information."
+        }
+    }
+]
+```
+
+### `group`
+
+The `group` parameter is an optional string that categorizes the set of rules being applied. It helps in organizing and managing different rule sets for various environments or projects.
+
+Example:
+
+```python python
+group = "development"
+```
+
+### `murnitur_key`
+
+The `murnitur_key` is a required string containing your Murnitur API key. This key authenticates your requests, capture interceptions, and links them to your account.
+
+Example:
+
+```python python
+murnitur_key = "your_api_key_here"
+```
+
+### `openai_key`
+
+The `openai_key` is an optional string containing your OpenAI API key. This key is required if you use any OpenAI-specific metrics in your rulesets.
+
+Example:
+
+```python python
+openai_key = "your_openai_api_key_here"
+```
+
+### Complete Example
+
+Here is a complete example of using Murnitur Shield with all the parameters:
+
+```python python
+from murnitur import Guard
+
+response = Guard.shield(
+    payload={
+        "input": "User input data here",
+        "output": "Generated output data here"
+    },
+    rulesets=[
+        {
+            "rules": [
+                {
+                    "metric": "pii",
+                    "operator": "contains",
+                    "value": ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            "action": {
+                "type": "OVERRIDE",
+                "fallback": "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ],
+    group="development",
+    murnitur_key="your_api_key_here",
+    openai_key="your_openai_api_key_here"
+)
+```

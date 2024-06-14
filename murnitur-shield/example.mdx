@@ -1,0 +1,59 @@
+---
+title: Full Example
+---
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/interceptions.png" />
+
+```python python
+from murnitur import Guard
+from murnitur.guard import Payload, RuleSet
+
+# Define the rulesets
+rulesets: list[RuleSet] = [
+    {
+        "rules": [
+            {
+                "metric": "pii",
+                "operator": "contains",
+                "value": ["email", "ssn", "address", "phone_number"]
+            }
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "Sorry, I can't provide personal identifiable information."
+        }
+    },
+    {
+        "rules": [
+            {
+                "metric": "tone",
+                "operator": "contains",
+                "value": ["sadness", "anger", "annoyance"]
+            }
+        ],
+        "action": {
+            "type": "FLAG",
+            "fallback": "Content flagged for inappropriate tone."
+        }
+    }
+]
+
+# Sample input and output data
+payload: Payload = {
+  "input": "User's input data containing email: user@example.com and phone number: 123-456-7890",
+  "output": "Generated output with sensitive information: SSN: 123-45-6789"
+}
+
+# Set up Murnitur Shield
+response = Guard.shield(
+    payload=payload,
+    rulesets=rulesets,
+    group="production",  # Adjust the group as per your environment
+    murnitur_key="your_api_key_here"  # Replace with your actual API key
+)
+
+# Return the response
+print(response)
+```
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/interception.png" />

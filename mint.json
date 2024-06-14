@@ -50,7 +50,17 @@
         "monitoring/overview",
         "monitoring/tracing",
         "monitoring/advanced-tracing",
+        "monitoring/custom-logs",
         "monitoring/supported-llms"
+      ]
+    },
+    {
+      "group": "Murnitur Shield",
+      "pages": [
+        "murnitur-shield/overview",
+        "murnitur-shield/rulesets",
+        "murnitur-shield/supported-metrics",
+        "murnitur-shield/example"
       ]
     },
     {

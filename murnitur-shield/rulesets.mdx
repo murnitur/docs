@@ -1,0 +1,103 @@
+---
+title: Rulesets
+---
+
+## Rule
+
+A **rule** is a specific condition that your application must comply with. It consists of three main components:
+
+- **Metric**: The type of data to evaluate (e.g., `"input_tone"`).
+- **Operator**: The condition to apply (e.g., `"contains"`).
+- **Value**: The specific values to look for (e.g., `["sadness", "anger", "annoyance"]`).
+
+### Example
+
+```python
+{
+    "metric": "input_tone",
+    "operator": "contains",
+    "value": ["sadness", "anger", "annoyance"]
+}
+```
+
+This rule checks if the tone of the input contains any of the specified emotions.
+
+## Ruleset
+
+A **ruleset** is a collection of rules that define a broader condition for your application. It includes the rules to evaluate and the action to take if any rule is triggered. Rulesets are evaluated in order of priority, where the first ruleset has the highest priority. Once a condition in a ruleset is met, subsequent rulesets are not evaluated.
+
+### Example
+
+```python
+rulesets = [
+    {
+        "rules": [
+            {
+                "metric": "input_tone",
+                "operator": "contains",
+                "value": ["sadness", "anger", "annoyance"]
+            }
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "Please avoid inappropriate content."
+        }
+    }
+]
+```
+
+In this example, if the tone of the input contains `"sadness"`, `"anger"`, or `"annoyance"`, the response will be overriden.
+
+## Action
+
+The **action** defines what happens if a rule within a ruleset is triggered. There are two types of actions:
+
+- **FLAG**: Marks the content but does not modify it.
+- **OVERRIDE**: Replaces the content with a fallback message.
+
+### Example
+
+```python
+{
+    "type": "OVERRIDE",
+    "fallback": "Sorry, this content cannot be displayed due to inappropriate tone."
+}
+```
+
+If the action type is "OVERRIDE" and a rule is triggered, the original content is replaced with the fallback message.
+
+## Complete Example
+
+Here's how you might set up Murnitur Shield with a ruleset focused on tone:
+
+```python
+from murnitur import Guard
+
+rulesets = [
+    {
+        "rules": [
+            {
+                "metric": "tone",
+                "operator": "contains",
+                "value": ["sadness", "anger", "annoyance"]
+            }
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "Sorry, this content cannot be displayed due to inappropriate tone."
+        }
+    }
+]
+
+response = Guard.shield(
+    payload={
+        "input": "The input data here",
+        "output": "The generated output here"
+    },
+    rulesets=rulesets,
+    group="development",
+    murnitur_key="your_api_key_here"
+)
+```
+
+In this setup, Murnitur Shield will override any output containing tones of sadness, anger, or annoyance with the specified fallback message.
