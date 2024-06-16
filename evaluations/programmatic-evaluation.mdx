@@ -20,7 +20,7 @@ from murnitur.annotation.eval import Evaluation
 murnitur.set_api_key("mt-ey...")
 key = "sk-..."
 
-eval = Evaluation(openai_api_key=key, murnix_api_key=murnitur.get_api_key())
+eval = Evaluation(openai_key=key, murnitur_key=murnitur.get_api_key())
 
 # Load datasets from csv
 data = Loader.load_csv("https://murnitur.github.io/murnix-kube/sample-dataset.csv")
