@@ -86,7 +86,7 @@
     },
     {
       "group": "Alerts",
-      "pages": ["alerts/setup"]
+      "pages": ["alerts/setup", "alerts/reports"]
     },
     {
       "group": "Datasets",
