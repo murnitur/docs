@@ -28,10 +28,9 @@
       "url": "http://docs.murnitur.ai/introduction"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community",
-      "isDefaultHidden": true
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/AHuUFzjD"
     },
     {
       "name": "Contact us",
