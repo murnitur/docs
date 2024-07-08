@@ -4,14 +4,23 @@ title: Custom Logs
 
 `murnitur.log()` is a function provided by Murnitur that allows you to log custom data to provide more context for instrumented traces. It enriches your trace data with additional information, helping you better understand and analyze your application's behavior.
 
-```python python
+<CodeGroup>
 
+```python python
 import murnitur
 
 # log additional data to existing trace
 murnitur.log("Metadata", { "model": "claude-3-opus-20240229" })
-
 ```
+
+```typescript typescript
+import * as murnitur from "murnitur";
+
+// log additional data to existing trace
+murnitur.log("Metadata", { model: "claude-3-opus-20240229" });
+```
+
+</CodeGroup>
 
 ## Use cases
 
@@ -23,6 +32,7 @@ murnitur.log("Metadata", { "model": "claude-3-opus-20240229" })
 
 <img style={{ borderRadius: "0.5rem" }} src="/images/log.png" />
 
+<CodeGroup>
 ```python python
 
 import murnitur
@@ -31,7 +41,7 @@ with murnitur.tracer("Confirm One Liner") as trace:
     one_liner = generate_one_liner()
     guess = guess_one_liner(one_liner)
     trace.log("Additional Data", shield_data)
-    completion = client.chat.completions.create(
+    completion = client.chat.completions.create( 
         model="gpt-3.5-turbo",
         messages=[
             {
@@ -42,3 +52,18 @@ with murnitur.tracer("Confirm One Liner") as trace:
     )
     trace.set_result(completion.choices[0].message.content)
 ```
+
+```typescript typescript
+import * as murnitur from "murnitur";
+
+const preset = await murnitur.loadPreset("eval");
+
+const prompt = murnitur.formatPrompt(preset.PresetPrompts[0].prompts, {
+  output: "This is a test",
+});
+
+murnitur.log("prompt", prompt);
+
+```
+
+</CodeGroup>

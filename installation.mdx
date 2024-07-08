@@ -11,6 +11,10 @@ Setting up the SDK is required only if you wish to trace your LLM application. C
 pip install murnitur 
 ```
 
+```bash typescript
+npm i murnitur
+```
+
 </CodeGroup>
 
 ## Get API Key
@@ -40,6 +44,14 @@ murnitur.set_api_key("mt-ey...")
 
 murnitur.init()
 
+```
+
+```typescript typescript
+import * as murnitur from "murnitur"; // Must precede any llm module imports
+
+murnitur.setApiKey("mt-ey..."); // or set MURNITUR_API_KEY in the .env file
+
+murnitur.init();
 ```
 
 </CodeGroup>

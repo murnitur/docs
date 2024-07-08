@@ -61,6 +61,12 @@ if __name__ == "__main__":
 
 ```
 
+```typescript typescript
+import * as murnitur from "murnitur";
+
+await murnitur.withTracer(() => {}, "NAME_OF_TRACER");
+```
+
 </CodeGroup>
 
 ## Trace Generator
@@ -190,6 +196,50 @@ if __name__ == "__main__":
     print(run_chatbot())
 
 
+```
+
+```typescript typescript
+import * as murnitur from "murnitur";
+
+async function runMurniturTraces() {
+  // First tracer block with nested tracer for OpenAI chat completion
+  await murnitur.withTracer(async () => {
+    await murnitur.withTracer(async () => {
+      // Create a chat completion using OpenAI GPT-4 model
+      const firstCompletion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          { role: "user", content: "What are the benefits of exercise?" },
+          {
+            role: "assistant",
+            content:
+              "Exercise improves health, strengthens muscles, and aids weight management.",
+          },
+          { role: "user", content: "List healthy eating habits." },
+        ],
+      });
+      console.log("First Completion: ", firstCompletion);
+    }, "inject");
+
+    // Second tracer block for OpenAI chat completion
+    const secondCompletion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        { role: "user", content: "Why is sleep important?" },
+        {
+          role: "assistant",
+          content:
+            "Sleep enhances mood, cognitive function, and stress management.",
+        },
+        { role: "user", content: "Tips for better sleep?" },
+      ],
+    });
+    console.log("Second Completion: ", secondCompletion);
+  });
+}
+
+// Execute the function
+runMurniturTraces();
 ```
 
 </CodeGroup>

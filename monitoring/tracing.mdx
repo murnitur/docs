@@ -68,4 +68,30 @@ if __name__ == "__main__":
 
 ```
 
+```typescript typescript
+import * as murnitur from "murnitur";
+import OpenAI from "openai";
+
+murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT);
+
+const openai = new OpenAI();
+
+async function example() {
+  const completion = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "user",
+        content: "Gimme a fun fact about nature",
+      },
+    ],
+  });
+  console.log(completion.choices[0]);
+}
+
+example().then(() => {
+  console.log("done");
+});
+```
+
 </CodeGroup>
