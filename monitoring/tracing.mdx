@@ -95,3 +95,18 @@ example().then(() => {
 ```
 
 </CodeGroup>
+
+## Tracing specific providers
+
+Murnitur enables you to specify the providers you want to trace, significantly enhancing the efficiency of your application. By targeting specific providers, you can achieve up to a 10x speed improvement in initialization. This selective tracing ensures that only the necessary components are initialized, reducing overhead and streamlining your operations.
+
+<CodeGroup>
+
+```python python
+import murnitur
+
+murnitur.init('test', murnitur.Environment.DEVELOPMENT, ['openai', 'astradb'])
+
+```
+
+</CodeGroup>

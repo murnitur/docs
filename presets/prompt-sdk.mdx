@@ -41,10 +41,9 @@ if __name__ == "__main__":
 
 ```
 
-
 ```typescript typescript
 import * as murnitur from "murnitur";
-import OpenAI from "openai"
+import OpenAI from "openai";
 
 const client = new OpenAI();
 
@@ -52,7 +51,9 @@ const client = new OpenAI();
 async function customerSupport(question: string) {
   const preset = await murnitur.loadPreset("customer_support");
 
-  const prompt = murnitur.formatPrompt(preset.PresetPrompts[0].prompts, { question });
+  const prompt = murnitur.formatPrompt(preset.PresetPrompts[0].prompts, {
+    question,
+  });
 
   const result = await client.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -70,12 +71,33 @@ async function main() {
 
   murnitur.init("murnix-trace", murnitur.Environment.DEVELOPMENT);
 
-  const response = await customerSupport("Do you offer discount on Hardware items?");
+  const response = await customerSupport(
+    "Do you offer discount on Hardware items?"
+  );
   console.log(response);
 }
 
 // Execute the main function
 main();
+```
+
+</CodeGroup>
+
+## Helper functions
+
+<CodeGroup>
+
+```python python
+preset = murnitur.load_preset("dev")
+
+# Get active version
+preset.active_version.messages
+
+# Load prompts by version
+preset.get_prompt_by_version(1).messages
+
+# Load prompts by name
+preset.get_prompt_by_name("dev_v2").messages
 
 ```
 
