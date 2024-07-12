@@ -80,6 +80,7 @@
         "evaluations/overview",
         "evaluations/human-evaluation",
         "evaluations/automatic-evaluation",
+        "evaluations/custom-evaluation",
         "evaluations/programmatic-evaluation"
       ]
     },
