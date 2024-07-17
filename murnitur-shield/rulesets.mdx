@@ -97,8 +97,10 @@ response = Guard.shield(
         "output": "The generated output here"
     },
     rulesets=rulesets,
-    group="development",
-    murnitur_key="your_api_key_here"
+    config={
+        "group": "development",
+        "murnitur_key": "your_api_key_here"
+    }
 )
 ```
 

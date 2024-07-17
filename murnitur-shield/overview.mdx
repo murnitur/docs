@@ -63,8 +63,10 @@ payload = {
 response = Guard.shield(
     payload=payload,
     rulesets=rulesets,
-    group="development",
-    murnitur_key="<YOUR_API_KEY>"
+    config={
+        "group": "development",
+        "murnitur_key": "<YOUR_API_KEY>"
+    }
 )
 ```
 
@@ -118,38 +120,84 @@ rulesets = [
 ]
 ```
 
-### `group`
+### `config`
+
+The config parameter is a dictionary containing various configuration options for Murnitur Shield. It includes keys such as `murnitur_key`, `provider`, `model`, `group`, `api_key`, `base_url`, and `headers`.
+
+Example:
+
+```python python
+from murnitur.main import GuardConfig
+
+config: GuardConfig
+```
+
+#### `murnitur_key`
+
+The `murnitur_key` is a required string containing your Murnitur API key. This key authenticates your requests, captures interceptions, and links them to your account. If not passed, murnitur picks it up from the environment variables.
+
+```python python
+config["murnitur_key"] = "your_murnitur_api_key_here"
+```
+
+#### `provider`
+
+The `provider` parameter specifies the service provider you are using, such as "openai", "groq", "anthropic", or "custom".
+
+Example:
+
+```python
+config["provider"] = "openai"
+```
+
+#### `model`
+
+By default, Murnitur uses `gpt-3.5-turbo`, but you can change it to any supported model from your chosen provider.
+
+Example:
+
+```python
+config["model"] = "gpt-4-turbo"
+```
+
+#### `group`
 
 The `group` parameter is an optional string that categorizes the set of rules being applied. It helps in organizing and managing different rule sets for various environments or projects.
 
 Example:
 
-```python python
-group = "development"
+```python
+config["group"] = "development"
 ```
 
-### `murnitur_key`
+#### `api_key`
 
-The `murnitur_key` is a required string containing your Murnitur API key. This key authenticates your requests, capture interceptions, and links them to your account.
+The `api_key` is an optional string containing your API key for the chosen provider. This key is required if you use any provider-specific metrics in your rule sets.
 
 Example:
 
-```python python
-murnitur_key = "your_api_key_here"
+```python
+config["api_key"] = "your_provider_api_key_here"
 ```
 
-### `openai_key`
+#### `base_url`
 
-The `openai_key` is an optional string containing your OpenAI API key. This key is required if you use any OpenAI-specific metrics in your rulesets.
-
-### `model`
-
-By default we use `gpt-3.5-turbo` but you can change it to any OpenAI model.
+The `base_url` is an optional string specifying the base URL for API requests. This is useful if you need to point to a different endpoint. It must be an OpenAI compatible API endpoint.
 
 Example:
 
-```python python
-openai_key = "your_openai_api_key_here"
+```python
+config["base_url"] = "https://api.openai.com/v1"
+```
+
+#### `headers`
+
+The `headers` parameter is an optional dictionary containing any additional headers you need to include in your API requests.
+
+Example:
+
+```python
+config["headers"] = {"Custom-Header": "value"}
 ```
 
 ### Complete Example
@@ -179,8 +227,12 @@ response = Guard.shield(
             }
         }
     ],
-    group="development",
-    murnitur_key="your_api_key_here",
-    openai_key="your_openai_api_key_here"
+    config={
+        "group": "development",
+        "murnitur_key": "your_api_key_here",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "provider_api_key"
+    }
 )
 ```

@@ -48,12 +48,14 @@ payload: Payload = {
 response = Guard.shield(
     payload=payload,
     rulesets=rulesets,
-    group="production",  # Adjust the group as per your environment
-    murnitur_key="your_api_key_here"  # Replace with your actual API key
+    config={
+        "group": "production",  # Adjust the group as per your environment
+        "murnitur_key": "your_api_key_here"  # Replace with your actual API key
+    }
 )
 
 # Return the response
-print(response)
+print(response.text)
 ```
 
 <img style={{ borderRadius: "0.5rem" }} src="/images/interception.png" />
