@@ -44,6 +44,17 @@
       "pages": ["introduction", "installation"]
     },
     {
+      "group": "Murnitur Shield",
+      "pages": [
+        "murnitur-shield/overview",
+        "murnitur-shield/rulesets",
+        "murnitur-shield/api-references",
+        "murnitur-shield/more-control",
+        "murnitur-shield/supported-metrics",
+        "murnitur-shield/example"
+      ]
+    },
+    {
       "group": "Monitoring",
       "pages": [
         "monitoring/overview",
@@ -51,15 +62,6 @@
         "monitoring/advanced-tracing",
         "monitoring/custom-logs",
         "monitoring/supported-llms"
-      ]
-    },
-    {
-      "group": "Murnitur Shield",
-      "pages": [
-        "murnitur-shield/overview",
-        "murnitur-shield/rulesets",
-        "murnitur-shield/supported-metrics",
-        "murnitur-shield/example"
       ]
     },
     {

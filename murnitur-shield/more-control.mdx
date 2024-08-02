@@ -1,0 +1,177 @@
+---
+title: More API Control
+---
+
+
+Murnitur Shield offers enhanced control over your AI interactions by allowing you to replicate SDK functionalities through direct API requests. This approach provides a flexible way to integrate Murnitur Shield into your systems and workflows.
+
+### Overview
+
+By using the API, you can achieve similar functionalities as the Murnitur Shield SDK, including custom payload handling, ruleset application, and configuration settings.
+
+### API Endpoint
+
+To access more control features, use the following endpoint:
+
+```bash
+https://middleware.murnitur.ai/murnitur-shield
+```
+
+### Request Structure
+
+You can configure the request to include:
+
+- **Payload**: The content you want to analyze.
+- **Rulesets**: The specific rules and actions to apply.
+- **Config**: Configuration settings like provider and API key.
+
+### Example Request
+
+
+```json
+{
+  "payload": {
+    "input": "Your message or content to be analyzed."
+  },
+  "rulesets": [
+    {
+      "rules": [
+        {
+          "metric": "pii",
+          "operator": "contains",
+          "value": ["email", "ssn", "address", "phone_number"]
+        }
+      ],
+      "action": {
+        "type": "OVERRIDE",
+        "fallback": "Sorry, I can't provide personal identifiable information."
+      }
+    }
+  ],
+  "config": {
+    "provider": "openai",
+    "api_key": "sk-***"
+  }
+}
+```
+
+**Example**
+
+<CodeGroup>
+```python python
+import requests
+
+url = "https://middleware.murnitur.ai/murnitur-shield"
+headers = {
+    "x-murnix-trace-token": "your-murnitur-key",
+    "Content-Type": "application/json"
+}
+data = {
+    "payload": {
+        "input": "Your message or content to be analyzed."
+    },
+    "rulesets": [
+        {
+            "rules": [
+                {
+                    "metric": "pii",
+                    "operator": "contains",
+                    "value": ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            "action": {
+                "type": "OVERRIDE",
+                "fallback": "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ]
+}
+
+response = requests.post(url, headers=headers, json=data)
+result = response.json()
+
+if result.get("triggered"):
+    print(result.get("text"))
+else:
+    # Continue to LLM call
+    pass
+```
+
+```js javascript
+const axios = require('axios');
+
+const url = "https://middleware.murnitur.ai/murnitur-shield";
+const headers = {
+    "x-murnix-trace-token": "your-murnitur-key",
+    "Content-Type": "application/json"
+};
+const data = {
+    payload: {
+        input: "Your message or content to be analyzed."
+    },
+    rulesets: [
+        {
+            rules: [
+                {
+                    metric: "pii",
+                    operator: "contains",
+                    value: ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            action: {
+                type: "OVERRIDE",
+                fallback: "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ]
+};
+
+axios.post(url, data, { headers: headers })
+    .then(response => {
+        const result = response.data;
+        if (result.triggered) {
+            console.log(result.text);
+        } else {
+            // Continue to LLM call
+        }
+    })
+    .catch(error => {
+        console.error("There was an error making the request:", error);
+    });
+```
+
+```curl cURL
+curl -X POST https://middleware.murnitur.ai/murnitur-shield \
+-H "x-murnix-trace-token: your-murnitur-key" \
+-H "Content-Type: application/json" \
+-d '{
+    "payload": {
+        "input": "Your message or content to be analyzed."
+    },
+    "rulesets": [
+        {
+            "rules": [
+                {
+                    "metric": "pii",
+                    "operator": "contains",
+                    "value": ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            "action": {
+                "type": "OVERRIDE",
+                "fallback": "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ]
+}'
+```
+
+</CodeGroup>
+
+### How It Works
+
+1. **Send Request**: Submit a POST request to the endpoint with your payload, rulesets, and configuration.
+2. **Process Response**: Murnitur Shield evaluates the content according to the specified rulesets.
+3. **Handle Triggers**: Based on the response, determine if any rules were triggered and take the necessary actions.
+
+By using the API directly, you gain more granular control over your interactions with Murnitur Shield, allowing you to tailor security checks to your specific needs and integrate them seamlessly into your workflows.
