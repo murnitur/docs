@@ -2,6 +2,7 @@
 title: More API Control
 ---
 
+
 Murnitur Shield offers enhanced control over your AI interactions by allowing you to replicate SDK functionalities through direct API requests. This approach provides a flexible way to integrate Murnitur Shield into your systems and workflows.
 
 ### Overview
@@ -25,6 +26,7 @@ You can configure the request to include:
 - **Config**: Configuration settings like provider and API key.
 
 ### Example Request
+
 
 ```json
 {
@@ -61,39 +63,39 @@ import requests
 
 url = "https://middleware.murnitur.ai/murnitur-shield"
 headers = {
-"x-murnix-trace-token": "your-murnitur-key",
-"Content-Type": "application/json"
+    "x-murnix-trace-token": "your-murnitur-key",
+    "Content-Type": "application/json"
 }
 data = {
-"payload": {
-"input": "Your message or content to be analyzed."
-},
-"rulesets": [
-{
-"rules": [
-{
-"metric": "input_pii",
-"operator": "contains",
-"value": ["email", "ssn", "address", "phone_number"]
-}
-],
-"action": {
-"type": "OVERRIDE",
-"fallback": "Sorry, I can't provide personal identifiable information."
-}
-}
-]
+    "payload": {
+        "input": "Your message or content to be analyzed."
+    },
+    "rulesets": [
+        {
+            "rules": [
+                {
+                    "metric": "input_pii",
+                    "operator": "contains",
+                    "value": ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            "action": {
+                "type": "OVERRIDE",
+                "fallback": "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ]
 }
 
 response = requests.post(url, headers=headers, json=data)
 result = response.json()
 
 if result.get("triggered"):
-print(result.get("text"))
-else: # Continue to LLM call
-pass
-
-````
+    print(result.get("text"))
+else:
+    # Continue to LLM call
+    pass
+```
 
 ```js javascript
 const axios = require('axios');
@@ -136,7 +138,7 @@ axios.post(url, data, { headers: headers })
     .catch(error => {
         console.error("There was an error making the request:", error);
     });
-````
+```
 
 ```curl cURL
 curl -X POST https://middleware.murnitur.ai/murnitur-shield \
