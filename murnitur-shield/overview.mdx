@@ -13,9 +13,16 @@ Murnitur Shield is designed to protect your system from bad inputs and safeguard
 
 Install the Murnitur package using pip:
 
-```bash bash
+<CodeGroup>
+```bash python
 pip install murnitur
 ```
+
+```bash typescript
+npm install murnitur
+```
+
+</CodeGroup>
 
 ## Define Rulesets
 
@@ -23,6 +30,7 @@ Rulesets are the core of Murnitur Shield, containing specific rules your applica
 
 Example ruleset:
 
+<CodeGroup>
 ```python python
 from murnitur.guard import RuleSet
 
@@ -43,6 +51,28 @@ rulesets: list[RuleSet] = [
 ]
 ```
 
+```typescript typescript
+import { RuleSet } from "murnitur"
+
+const rulesets: RuleSet[] = [
+    {
+        rules: [
+            {
+                metric: "pii",
+                operator: "contains",
+                value: ["email", "ssn", "address", "phone_number"],
+            },
+        ],
+        action": {
+            type: "OVERRIDE",
+            fallback: "Sorry, I can't provide personal identifiable information.",
+        },
+    },
+]
+```
+
+</CodeGroup>
+
 Each ruleset includes:
 
 - **Metric**: The type of content to check (e.g., PII).
@@ -54,7 +84,11 @@ Each ruleset includes:
 
 Initialize Murnitur Shield to start filtering content:
 
+<CodeGroup>
+
 ```python python
+from murnitur import Guard
+
 payload = {
     "output": "James lives at 567 X. Elm St., Chicago, IL 60614.",
     "input": "Give me James' home address",
@@ -69,6 +103,27 @@ response = Guard.shield(
     }
 )
 ```
+
+
+```typescript typescript
+import { Guard } from "murnitur"
+
+const payload = {
+    output: "James lives at 567 X. Elm St., Chicago, IL 60614.",
+    input: "Give me James' home address",
+}
+
+const response = Guard.shield(
+    payload,
+    rulesets,
+    {
+        "group": "development",
+        "murnitur_key": "<YOUR_API_KEY>"
+    }
+)
+```
+
+</CodeGroup>
 
 ## Quick Wiki
 
@@ -204,6 +259,7 @@ config["headers"] = {"Custom-Header": "value"}
 
 Here is a complete example of using Murnitur Shield with all the parameters:
 
+<CodeGroup>
 ```python python
 from murnitur import Guard
 
@@ -231,8 +287,43 @@ response = Guard.shield(
         "group": "development",
         "murnitur_key": "your_api_key_here",
         "provider": "openai",
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4o-mini",
         "api_key": "provider_api_key"
     }
 )
 ```
+
+
+```typescript typescript
+import { Guard } from "murnitur"
+
+const response = Guard.shield(
+    {
+        input: "User input data here",
+        output: "Generated output data here"
+    },
+    [
+        {
+            rules: [
+                {
+                    metric: "pii",
+                    operator: "contains",
+                    value: ["email", "ssn", "address", "phone_number"]
+                }
+            ],
+            action: {
+                type: "OVERRIDE",
+                fallback: "Sorry, I can't provide personal identifiable information."
+            }
+        }
+    ],
+    {
+        group: "development",
+        murnitur_key: "your_api_key_here",
+        provider: "openai",
+        model: "gpt-4o-mini",
+        api_key: "provider_api_key"
+    }
+)
+```
+</CodeGroup>
