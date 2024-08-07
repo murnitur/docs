@@ -50,6 +50,9 @@
         "murnitur-shield/rulesets",
         "murnitur-shield/api-references",
         "murnitur-shield/more-control",
+        "murnitur-shield/hallucination-detection",
+        "murnitur-shield/probe",
+        "murnitur-shield/custom-metric",
         "murnitur-shield/supported-metrics",
         "murnitur-shield/example"
       ]
@@ -62,6 +65,15 @@
         "monitoring/advanced-tracing",
         "monitoring/custom-logs",
         "monitoring/supported-llms"
+      ]
+    },
+    {
+      "group": "AI Agents",
+      "pages": [
+        "agent-monitoring/overview",
+        "agent-monitoring/tracing",
+        "agent-monitoring/advanced-tracing",
+        "agent-monitoring/example"
       ]
     },
     {

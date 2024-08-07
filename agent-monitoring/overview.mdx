@@ -1,0 +1,50 @@
+---
+title: Overview
+---
+
+
+Murnitur provides powerful tools for tracing and monitoring agents within your system. This capability helps in debugging, performance monitoring, and ensuring the correct behavior of your agents. This documentation will cover how to use the `@trace_agent` decorator and how to define tasks and tools with Murnitur.
+
+### What is AI Agent Tracing?
+
+AI Agent tracing involves monitoring the actions and interactions of different AI agents in your system. By using Murnitur's tracing capabilities, you can gather valuable insights into agent performance and behavior, which aids in debugging and optimizing your applications.
+
+### Setting Up Tracing with `@trace_agent`
+
+The `@trace_agent` decorator allows you to trace an agent's activities. It automatically instruments all callable functions within the agent class, but you can control this behavior using the `auto_instrument` parameter.
+
+#### Example: Software Engineer Agent
+
+Here's an example of a `SoftwareEngineerAgent` that generates Python code based on given prompts. The `@trace_agent` decorator is used to trace its interactions with the OpenAI API.
+
+```python
+from murnitur import trace_agent
+
+@trace_agent(name="software_engineer")
+class SoftwareEngineerAgent:
+    def completion(self, prompt: str):
+        res = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a software engineer and only output Python code, no markdown tags.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+        )
+        return res.choices[0].message.content
+```
+
+## Summary
+
+Agent tracing with Murnitur provides a comprehensive way to monitor and manage the activities of agents in your system. By using the `@trace_agent`, `@murnitur.task`, and `@murnitur.tool` decorators, you can create a well-organized, traceable, and maintainable codebase. This not only helps in debugging and performance monitoring but also ensures that your system behaves as expected.
+
+### Benefits of Using Murnitur for Agent Tracing
+
+- **Debugging**: Easily identify and resolve issues within your agents.
+- **Performance Monitoring**: Track the performance of agents to optimize their efficiency.
+- **Behavioral Insights**: Understand how agents interact and perform tasks within your system.
+
+By leveraging these capabilities, you can build robust and reliable systems that are easier to maintain and debug.

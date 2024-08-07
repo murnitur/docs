@@ -1,0 +1,115 @@
+---
+title: Hallucination Detection
+---
+
+
+Hallucination detection is a crucial aspect of ensuring the accuracy and reliability of language models. Murnitur Shield provides a powerful mechanism for detecting hallucinations in generated text through its `ctx_adherence` metric. This metric checks if the output of a model adheres to the given contexts, ensuring that the generated content is accurate and contextually appropriate.
+
+### What is Hallucination?
+
+In the realm of AI and natural language processing, hallucination refers to the generation of information by a model that is not grounded in the provided context or factual data. This can lead to misleading or incorrect outputs, which is particularly problematic in sensitive or critical applications.
+
+### How `ctx_adherence` Works
+
+The `ctx_adherence` metric in Murnitur Shield allows you to define contexts against which the generated output is evaluated. If the output deviates from these contexts or introduces information not supported by them, it is flagged as a hallucination.
+
+### Usage
+
+To use the `ctx_adherence` metric with Murnitur Shield, you need to provide the contexts and the actual output you want to evaluate. The shield will then determine if the output adheres to the contexts.
+
+Here is an example of how to use the `ctx_adherence` metric:
+
+<CodeGroup>
+```python python
+from murnitur import Guard
+from murnitur.guard import Payload, RuleSet
+
+# Define the contexts and actual output
+contexts = [
+    "Einstein won the Nobel Prize for his discovery of the photoelectric effect.",
+    "Einstein won the Nobel Prize in 1921.",
+]
+output = "Einstein won the Nobel Prize in 1969 for his discovery of the photoelectric effect."
+
+# Create a payload
+payload: Payload = {"output": output, "contexts": contexts}
+
+# Create rulesets
+rulesets: list[RuleSet] = [
+    {
+        "rules": [
+            {
+                "metric": "ctx_adherence",
+                "operator": "greater_than_equal",
+                "value": 0.25,
+            }
+        ],
+        "action": {
+            "type": "OVERRIDE",
+            "fallback": "I don't have enough information to answer your question.",
+        },
+    }
+]
+
+# Use the shield to check for hallucination
+result = Guard.shield(payload, rulesets)
+
+print(result.triggered)
+```
+```typescript typescript
+import { Guard, Payload, RuleSet } from "murnitur"
+
+// Define the contexts and actual output
+const contexts = [
+    "Einstein won the Nobel Prize for his discovery of the photoelectric effect.",
+    "Einstein won the Nobel Prize in 1921.",
+]
+const output = "Einstein won the Nobel Prize in 1969 for his discovery of the photoelectric effect."
+
+// Create a payload
+const payload: Payload = {output, contexts}
+
+// Create rulesets
+const rulesets: list[RuleSet] = [
+    {
+        rules: [
+            {
+                metric: "ctx_adherence",
+                operator: "greater_than_equal",
+                value: 0.25,
+            }
+        ],
+        action: {
+            type: "OVERRIDE",
+            fallback: "I don't have enough information to answer your question.",
+        },
+    }
+]
+
+// Use the shield to check for hallucination
+const result = await Guard.shield(payload, rulesets)
+
+console.log(result.triggered)
+
+```
+
+```curl cURL
+curl -X POST https://middleware.murnitur.ai/murnitur-shield/hallucination \
+-H "x-murnix-trace-token: your-murnitur-key" \
+-H "Content-Type: application/json" \
+-d '{
+    "payload": {
+        "output": "The actual output",
+        "contexts": []
+    },
+    "config": {
+      "provider": "openai",
+      "api_key": "sk-***"
+    }
+}'
+```
+</CodeGroup>
+
+### Conclusion
+
+Detecting hallucinations in AI-generated text is essential for maintaining the accuracy and reliability of information. Murnitur Shield's `ctx_adherence` metric provides a robust solution for ensuring outputs adhere to given contexts, making it an invaluable tool for developers and data scientists working with language models. By leveraging this feature, you can improve the trustworthiness of your AI applications and deliver more reliable results.

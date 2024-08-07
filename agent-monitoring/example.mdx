@@ -1,0 +1,72 @@
+---
+title: Full Example
+---
+
+<img style={{ borderRadius: "0.5rem" }} src="/images/agent.png" />
+
+## Full Example
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+from murnitur import trace_agent, init, Environment
+from openai import OpenAI
+
+# setup tracing
+init("Agent Test", Environment.DEVELOPMENT, ["openai"])
+
+openai_client = OpenAI()
+
+@trace_agent(name="software_engineer")
+class SoftwareEngineerAgent:
+    def completion(self, prompt: str):
+        res = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a software engineer and only output Python code, no markdown tags.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+        )
+        return res.choices[0].message.content
+
+
+@trace_agent(name="qa")
+class QaAgent:
+    def completion(self, prompt: str):
+        res = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a QA engineer. Review the following Python code, approve it, or recommend updates using comments. Only output Python code, no markdown tags.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+        )
+        return res.choices[0].message.content
+
+# Instantiate the agents
+software_engineer = SoftwareEngineerAgent()
+qa_engineer = QaAgent()   
+
+# Example prompt for the software engineer
+engineer_prompt = "Write a Python function to perform bubble sort on a list of numbers."
+
+# Software engineer writes the code
+software_engineer_response = software_engineer.completion(engineer_prompt)
+print(f"Software Engineer Agent Response: {software_engineer_response}")
+
+# Example prompt for the QA engineer to review the code
+qa_prompt = f"Review the following Python code: {software_engineer_response}"
+
+# QA engineer reviews the code
+qa_engineer_response = qa_engineer.completion(qa_prompt)
+print(f"\nQA Engineer Agent Response: {qa_engineer_response}")
+
+```
+

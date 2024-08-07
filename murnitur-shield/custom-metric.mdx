@@ -1,0 +1,125 @@
+---
+title: Custom Metrics
+---
+
+
+Murnitur Shield's flexibility extends beyond predefined metrics, allowing you to define and use custom metrics tailored to your specific needs. Custom metrics enable you to create specialized checks that aren't covered by the built-in options, giving you greater control and precision in evaluating your data and model outputs.
+
+## What are Custom Metrics?
+
+Custom metrics are user-defined functions that can be integrated into Murnitur Shield to perform unique evaluations on your payloads. These functions take the payload as input and return a tuple consisting of a boolean (indicating whether a trigger occurred) and an optional string (providing the text under evaluation if no trigger was detected).
+
+## Defining a Custom Metric
+
+To define a custom metric, you need to create a function that matches the expected signature. The function must accept a `Payload` object and return a tuple containing a boolean and an optional string.
+
+Here’s an example of a custom metric function:
+
+```python
+from typing import Tuple, Optional
+from murnitur.guard import Payload
+
+def custom_metric_function(payload: Payload) -> Tuple[bool, Optional[str]]:
+    threshold = 10
+    if len(payload.get("output", "")) > threshold:
+        return True, None
+    return False, payload.get("output", "")
+```
+
+## Registering a Custom Metric
+
+To register a custom metric with Murnitur Shield, use the `Guard.register_custom_metric` method. This allows you to integrate custom logic for evaluating your payloads.
+
+```python
+Guard.register_custom_metric('length_check', custom_metric_function)
+```
+
+In this example, the `length_check` value is registered with the `custom_metric_function`, enabling Murnitur Shield to use it during payload evaluations.
+
+## Using Custom Metrics with Murnitur Shield
+
+Once you have defined your custom metric function, you can integrate it into Murnitur Shield by including it in your rulesets.
+
+Here's an example of how to use a custom metric with Murnitur Shield:
+
+```python
+from murnitur import Guard, GuardConfig
+from murnitur.guard import  Payload, RuleSet
+
+# Define the payload
+payload = Payload(input="Test input", output="This is a test output")
+
+# Define the ruleset with the custom metric
+ruleset = RuleSet(
+    rules=[
+        {
+            "metric": "custom",
+            "value": "length_check"
+        }
+    ],
+    action={"type": "OVERRIDE", "fallback": "Custom metric condition met."}
+)
+
+# Register the custom metric
+Guard.register_custom_metric('length_check', custom_metric_function)
+
+# Define the config
+config = GuardConfig()
+
+# Use the shield function with the custom metric
+response = Guard.shield(payload, [ruleset], config)
+
+print(response)
+```
+
+## Example Custom Metric
+
+Let's consider a custom metric that checks whether the output contains more than a specified number of words.
+
+### Custom Metric Function
+
+```python
+def word_count_metric(payload: Payload) -> Tuple[bool, Optional[str]]:
+    word_limit = 5
+    output_text = payload.get("output", "")
+    word_count = len(output_text.split())
+    if word_count > word_limit:
+        return True, None
+    return False, output_text
+```
+
+### Using the Custom Metric
+
+```python
+from murnitur import Guard, GuardConfig
+from murnitur.guard import Payload, RuleSet
+
+# Define the payload
+payload = Payload(input="Short input", output="This output has more than five words.")
+
+# Define the ruleset with the custom metric
+ruleset = RuleSet(
+    rules=[
+        {
+            "metric": "custom",
+            "value": "word_count"
+        }
+    ],
+    action={"type": "OVERRIDE", "fallback": "Word count limit exceeded."}
+)
+
+# Register the custom metric
+Guard.register_custom_metric('word_count', word_count_metric)
+
+# Define the config
+config = GuardConfig()
+
+# Use the shield function with the custom metric
+response = Guard.shield(payload, [ruleset], config)
+
+print(response)
+```
+
+## Conclusion
+
+Custom metrics in Murnitur Shield provide a powerful way to tailor the evaluation of your data and model outputs to meet specific requirements. By defining and integrating custom functions, you can extend the capabilities of Murnitur Shield and achieve a higher level of precision in your analyses. Whether you need to check for unique conditions or specialized criteria, custom metrics offer the flexibility you need to enhance your data evaluation processes.

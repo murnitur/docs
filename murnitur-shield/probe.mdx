@@ -1,0 +1,104 @@
+---
+title: Probe
+---
+
+
+The Probe feature in Murnitur Shield allows you to directly evaluate various metrics of your payload without setting up rulesets and actions. This feature is designed for quick and straightforward assessments, making it easier to understand the characteristics of your data and model outputs.
+
+### What is Probing?
+
+Probing is a method to directly check specific attributes or metrics of a given payload. Unlike the comprehensive `shield` function, which applies a series of rules and actions, `probe` is used for on-the-fly evaluations. This is useful for developers and data scientists who need to quickly verify certain aspects of their model's performance or behavior.
+
+### How `probe` Works
+
+The `probe` function in Murnitur Shield allows you to specify the metric you want to evaluate. It takes the payload and the metric type as inputs and returns the results based on the specified metric.
+
+### Usage
+
+To use the `probe` function, you need to provide the payload and the metric you want to evaluate. The `probe` function will then return the results of the evaluation.
+
+Here is an example of how to use the `probe` function:
+
+<CodeGroup>
+```python python
+from murnitur import Guard
+from murnitur.guard import Payload
+
+# Define the payload
+payload: Payload = {"input": "I'm feeling quite annoyed today."}
+
+# Use the probe function to check for tone
+result = Guard.probe(payload, 'input_tone')
+
+print(result) # ['sadness']
+```
+```typescript typescript
+import { Guard, Payload } from "murnitur"
+
+// Define the payload
+const payload: Payload = {input: "I'm feeling quite annoyed today."}
+
+// Use the probe function to check for tone
+const result = await Guard.probe(payload, 'input_tone')
+
+console.log(result) // ['sadness']
+```
+</CodeGroup>
+
+### Example Probes
+
+Here are some examples to illustrate how `probe` works:
+
+#### Example 1: Tone Detection
+
+**Payload:**
+- Input: "I'm feeling quite annoyed today."
+
+**Probe:**
+```python
+result = Guard.probe(payload, 'input_tone')
+```
+
+**Result:**
+```python
+["annoyance", "sadness"]
+```
+
+#### Example 2: PII Detection
+
+**Payload:**
+- Output: "Your email is example@example.com."
+
+**Probe:**
+```python
+result = Guard.probe(payload, 'pii')
+```
+
+**Result:**
+```json
+[true, ["email"]]
+```
+
+#### Example 3: Context Adherence
+
+**Payload:**
+- Contexts: ["Ada Lovelace is often considered the first computer programmer.", "Ada Lovelace wrote the first algorithm intended for a machine."]
+- Output: "Ada Lovelace invented the first computer and wrote the first algorithm."
+
+**Probe:**
+```python
+result = Guard.probe(payload, 'ctx_adherence')
+```
+
+**Result:**
+```json
+{
+  "verdict": "yes",
+  "score": 0.7,
+  "reason": "While Ada Lovelace did write the first algorithm, she did not invent the first computer."
+}
+```
+
+### Conclusion
+
+The Probe feature in Murnitur Shield provides a quick and efficient way to evaluate specific metrics of your payload. Whether you need to check for tone, PII, context adherence, or other metrics, `probe` offers a straightforward solution. By leveraging this feature, you can gain valuable insights into your data and model outputs, enabling you to make more informed decisions and improvements.

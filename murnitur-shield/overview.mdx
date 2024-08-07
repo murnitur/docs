@@ -113,7 +113,7 @@ const payload = {
     input: "Give me James' home address",
 }
 
-const response = Guard.shield(
+const response = await Guard.shield(
     payload,
     rulesets,
     {
@@ -297,7 +297,7 @@ response = Guard.shield(
 ```typescript typescript
 import { Guard } from "murnitur"
 
-const response = Guard.shield(
+const response = await Guard.shield(
     {
         input: "User input data here",
         output: "Generated output data here"

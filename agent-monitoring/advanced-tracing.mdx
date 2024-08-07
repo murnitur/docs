@@ -1,0 +1,39 @@
+---
+title: Advanced Tracing
+---
+
+
+## Defining Tasks with `@murnitur.task`
+
+Tasks in Murnitur are reusable units of work that can be traced and monitored. By defining tasks, you can modularize your code and make it more maintainable.
+
+### Example Task Definition
+
+Here's an example of defining a task using the `@murnitur.task` decorator:
+
+```python
+from murnitur import task
+
+@task(name="example_task")
+def example_task(payload: Payload):
+    # Task logic here
+    return {"status": "completed"}
+```
+
+
+## Defining Tools with `@murnitur.tool`
+
+Tools in Murnitur are utilities or helpers that perform specific functions. They can be used to encapsulate commonly used logic or functionality.
+
+### Example Tool Definition
+
+Here's an example of defining a tool using the `@murnitur.tool` decorator:
+
+```python
+from murnitur import tool
+
+@tool(name="example_tool")
+def example_tool(payload: Payload):
+    # Tool logic here
+    return {"result": "success"}
+```

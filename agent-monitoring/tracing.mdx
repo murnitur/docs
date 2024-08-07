@@ -1,0 +1,49 @@
+---
+title: Tracing
+---
+
+## Detailed Example: QA Agent
+
+The `QaAgent` reviews Python code, approves it, or recommends updates. By default, all methods within the agent are traced due to `auto_instrument=True`.
+
+```python
+from murnitur import trace_agent
+
+@trace_agent(name="qa", auto_instrument=True)
+class QaAgent:
+    def completion(self, prompt: str):
+        res = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a QA engineer. Review the following Python code, approve it, or recommend updates using comments. Only output Python code, no markdown tags.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+        )
+        return res.choices[0].message.content
+```
+
+If you want to disable automatic instrumentation of methods, you can set `auto_instrument` to `False`:
+
+```python
+from murnitur import trace_agent
+
+@trace_agent(name="qa", auto_instrument=False)
+class QaAgent:
+    def completion(self, prompt: str):
+        res = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a QA engineer. Review the following Python code, approve it, or recommend updates using comments. Only output Python code, no markdown tags.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+        )
+        return res.choices[0].message.content
+```
