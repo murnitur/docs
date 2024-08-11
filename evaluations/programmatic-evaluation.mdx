@@ -44,6 +44,53 @@ print(results)
 </CodeGroup>
 Each run is saved in the UI. You can view the results on the **AI Evaluations** page.
 
+
+## Knowledge Retention Evaluation 
+
+To evaluate how well your model retains information across interactions, use Murnitur's `knowledge_retention` method. You can also set up a base threshold to define acceptable retention levels.
+
+
+1. **Import the Required Module**:
+   ```python
+   from murnitur.annotation.eval import Evaluation
+   ```
+
+2. **Prepare Your Dataset**:
+   ```python
+   data = [
+     {
+       "input": "How often should I run webinars to gain traction for Murnitur?",
+       "output": "Once a month to start. This gives you time to prepare quality content."
+     },
+     {
+       "input": "What topics should I cover in these webinars?",
+       "output": "Focus on unique features like tracing and monitoring, and AI safety with Murnitur Shield."
+     }
+   ]
+   ```
+
+3. **Set Up a Base Threshold (Optional)**:
+   ```python
+   base_threshold = 0.2  # Define your acceptable retention level
+   ```
+
+4. **Run the Evaluation**:
+   ```python
+   eval = Evaluation()
+   results = eval.knowledge_retention(dataset=data, save_output=True, threshold=base_threshold)
+   print(results)
+   ```
+
+5. **Sample Output**:
+   ```json
+   {
+     "score": 0.1,
+     "reason": "The model retains information well with minimal loss."
+   }
+   ```
+
+This method returns a JSON with a score (0-1) indicating the level of knowledge retention, where closer to 0 means better retention. By setting a base threshold, you can determine if the retention meets your desired standards.
+
 ## Creating dataset
 
 **_Side Note_**: If you are creating a dataset from a dictionary, use the following data structure:
