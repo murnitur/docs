@@ -86,7 +86,12 @@
     },
     {
       "group": "Presets",
-      "pages": ["presets/overview", "presets/prompt-sdk", "presets/tags"]
+      "pages": [
+        "presets/overview",
+        "presets/prompt-sdk",
+        "presets/tags",
+        "presets/finetune"
+      ]
     },
     {
       "group": "Evals",

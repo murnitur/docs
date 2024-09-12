@@ -1,0 +1,36 @@
+---
+title: Finetune
+---
+
+In Murnitur, fine-tuning prompts is a way to customize and improve the performance of your AI models based on specific needs. You can fine-tune prompts using preset configurations or by applying reinforcement learning techniques with your [completion datasets](/datasets/completions).
+
+## Fine-Tuning with Presets
+
+Murnitur provides preset configurations that can be fine-tuned to better fit your requirements. For example, you can load a preset designed for Question and Answer tasks and then fine-tune for better output:
+
+```python
+preset = murnitur.load_preset("QA")
+prompts = preset.fine_tune()  # Fine-tunes the preset with the current active version
+```
+
+If you want to use a specific version of the preset, you can pass the version as an argument.
+
+## Fine-Tuning with Datasets
+
+For more advanced customization, you can use [completion datasets](/datasets/completions) to fine-tune prompts. This approach is similar to reinforcement learning, where the model is trained based on specific data to improve its responses:
+
+```python
+prompts = preset.fine_tune_with_dataset('DATASET-ID')  # Fine-tunes the preset with a dataset
+```
+
+Replace `'DATASET-ID'` with the identifier of your dataset. You can also pass a specific prompt version if needed.
+
+## Refining Prompts
+
+You can further refine raw prompts without loading a preset. Use the `refine_prompt` method to make these adjustments:
+
+```python
+prompts = murnitur.refine_prompt([
+    {"role": "user", "content": "Answer this question: {{question}}, reference these contexts: {{contexts}}"}
+])
+```
