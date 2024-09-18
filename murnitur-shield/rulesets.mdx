@@ -50,10 +50,11 @@ In this example, if the tone of the input contains `"sadness"`, `"anger"`, or `"
 
 ## Action
 
-The **action** defines what happens if a rule within a ruleset is triggered. There are two types of actions:
+The **action** defines what happens if a rule within a ruleset is triggered. There are three types of actions:
 
 - **FLAG**: Marks the content but does not modify it.
 - **OVERRIDE**: Replaces the content with a fallback message.
+- **MASK**: Redacts sensitive details in the model's response (Only works for PII).
 
 ### Example
 
